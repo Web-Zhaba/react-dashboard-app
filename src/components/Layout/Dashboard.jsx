@@ -1,4 +1,7 @@
-import './Dashboard.css';
+import '../../styles/Dashboard.css';
+import '../Widgets/WidgetContainer'
+import '../Widgets/WeatherWidget/WeatherWidget'
+import WeatherWidget from '../Widgets/WeatherWidget/WeatherWidget';
 
 const Dashboard = () => {
   return (
@@ -7,9 +10,8 @@ const Dashboard = () => {
         <h1>Мой дашборд</h1>
         <span>{new Date().toLocaleDateString()}</span>
       </header>
-      
       <div className="widgets-grid">
-        {/* Здесь будут виджеты */}
+        <WeatherWidget />
       </div>
     </div>
   );
