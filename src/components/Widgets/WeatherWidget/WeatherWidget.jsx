@@ -38,10 +38,8 @@ const WeatherWidget = () => {
               alt={weather.description}
             />
             <div className="weather-temp">
-              <span className="temp-current">{weather.temp}°C</span><br></br>
-              <span className="temp-feels">
-                Ощущается как {weather.feelsLike}°C
-              </span>
+              <span className="temp-current">Температура: {weather.temp}°C</span><br></br>
+              <span className="temp-feels">Ощущается как: {weather.feelsLike}°C</span>
             </div>
           </div>
           <p className="weather-desc">{weather.description}</p>
