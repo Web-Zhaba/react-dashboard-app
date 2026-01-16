@@ -15,7 +15,11 @@ export const fetchQuotes = async () => {
 
         const data = await response.json();
         console.log('Полученные данные из API:', data);
-        return data
+        return {
+            quote: data.quote,
+            author: data.author,
+            work: data.work
+        }
     } catch (error) {
         throw error;
     }
