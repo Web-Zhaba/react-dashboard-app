@@ -7,9 +7,25 @@ import QuotesWidget from '../Widgets/QuotesWidget/QuotesWidget';
 const Dashboard = () => {
   return (
     <div className="dashboard">
+      {/* Шапка дашборда */}
       <header className="dashboard-header">
-        <h1>Мой дашборд</h1>
-        <span>{new Date().toLocaleDateString()}</span>
+        <div className="header-left">
+          <h1>Мой Дашборд</h1>
+          <span className="dashboard-subtitle">
+            {new Date().toLocaleDateString('ru-RU')}
+          </span>
+        </div>
+        {/* <div className="header-right">
+          <button 
+            className="btn btn-primary"
+            onClick={() => setIsModalOpen(true)}
+          >
+            + Добавить виджет
+          </button>
+          <button className="btn btn-secondary">
+            Сохранить макет
+          </button>
+        </div> */}
       </header>
       <div className="widgets-grid">
         <WeatherWidget />

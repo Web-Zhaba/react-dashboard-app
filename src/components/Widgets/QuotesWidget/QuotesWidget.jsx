@@ -4,7 +4,7 @@ import WidgetContainer from '../WidgetContainer';
 
 const QuotesWidget = () => {
   const [quote, setQuote] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(null);
   
   const loadQuotes = async () => {
@@ -12,7 +12,6 @@ const QuotesWidget = () => {
       setLoading(true);
       const data = await fetchQuotes();
       setQuote(data);
-      console.log(quote.quote)
       setError(null);
     } catch (err) {
       setError(err.message);

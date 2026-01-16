@@ -6,7 +6,7 @@ export const fetchQuotes = async () => {
             method: 'GET',
             headers: { 
                 'X-Api-Key': 'Axy3pXKaBjg5tgyg1BlYBrahAZFFViITaOJVan1s',
-                'Content-Type': 'application/json',
+                // 'Content-Type': 'application/json',
                 }
             }
         );
@@ -16,9 +16,9 @@ export const fetchQuotes = async () => {
         const data = await response.json();
         console.log('Полученные данные из API:', data);
         return {
-            quote: data.quote,
-            author: data.author,
-            work: data.work
+            quote: data[0].quote,
+            author: data[0].author,
+            category: data[0].category
         }
     } catch (error) {
         throw error;
