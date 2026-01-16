@@ -2,6 +2,7 @@ import '../../styles/Dashboard.css';
 import '../Widgets/WidgetContainer'
 import '../Widgets/WeatherWidget/WeatherWidget'
 import WeatherWidget from '../Widgets/WeatherWidget/WeatherWidget';
+import QuotesWidget from '../Widgets/QuotesWidget/QuotesWidget';
 
 const Dashboard = () => {
   return (
@@ -12,6 +13,7 @@ const Dashboard = () => {
       </header>
       <div className="widgets-grid">
         <WeatherWidget />
+        <QuotesWidget />
       </div>
     </div>
   );
