@@ -14,7 +14,7 @@ export const fetchQuotes = async () => {
         if (!response.ok) throw new Error('Ошибка запроса');
 
         const data = await response.json();
-        console.log('Полученные данные из API:', data);
+        console.log('Полученные данные из API погоды:', data);
         return {
             quote: data[0].quote,
             author: data[0].author,
