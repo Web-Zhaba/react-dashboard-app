@@ -5,6 +5,7 @@ import {
   MdSettings, 
   MdDragIndicator 
 } from 'react-icons/md';
+import './container.css'
 
 
 // Контейнер для виджетов с общим функционалом
@@ -19,31 +20,27 @@ import {
 // @param {boolean} props.draggable - Возможность перетаскивания
 
 
-const WidgetContainer = ({ 
+const WidgetContainer = ({
   title,
   children,
   loading = false,
   error = null,
   onRefresh,
-  onRemove,
-  onSettings,
-  draggable = true,
+  onRemove = true,
+  onSettings= true,
+  isDraggable = true,
   widgetId,
 }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
-    <div 
+    <div
     className={`widget ${loading ? 'loading' : ''} ${error ? 'error' : ''}`}
     data-widget-id={widgetId}
-    onMouseEnter={() => setIsHovered(true)}
-    onMouseLeave={() => setIsHovered(false)}
     >
       <div className="widget-header">
-        <div className="widget-header-left">
-          {draggable && (
+        <div data-swapy-handle className="widget-header-left">
+          {isDraggable && (
             <span className="drag-handle">
-              <MdDragIndicator />
+              <MdDragIndicator size={25} />
             </span>
           )}
           <h3 className="widget-title">{title}</h3>

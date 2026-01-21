@@ -1,0 +1,104 @@
+:root {
+  --background-dark-color: #36393F;
+  --secondary-dark-color: #202225;
+  --middle-dark-color: #29292f;
+  --accent-dark-color: #5865f2;
+  --sub-text-dark-color: #7f8c8d;
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color-scheme: dark;
+  color: white;
+  background-color: var(--background-dark-color);
+}
+.dashboard {
+  padding: 20px;
+  min-height: 100vh;
+  margin: 0 auto;
+}
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: var(--secondary-dark-color);
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.header-left h1 {
+  margin: 0;
+  color: white;
+  display: flex;
+  align-items: center;
+}
+.dashboard-subtitle {
+  color: var(--sub-text-dark-color);
+  font-size: 14px;
+}
+.widgets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 5px;
+  margin-top: 5px;
+}
+.slot-container{
+  border-radius: 12px;
+  height: 20rem;
+}
+.slot-container[data-swapy-dragging] {
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.15);
+}
+.slot{
+  height: 100%;
+  margin-bottom: 16px;
+  margin-top: 16px;
+}
+.slot[data-swapy-highlighted]{
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+}
+.header-right{
+  display: flex;
+  gap: 5px;
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-primary {
+  background: var(--accent-dark-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+  background: white;
+  color: #495057;
+  border: 1px solid #e9ecef;
+}
+
+.btn-secondary:hover {
+  background: #e9ecef;
+}

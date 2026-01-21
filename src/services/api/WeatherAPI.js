@@ -10,8 +10,11 @@ export const fetchWeather = async (city = 'Moscow') => {
         if (!response.ok) throw new Error('Ошибка запроса');
 
         const data = await response.json();
+        console.log('Полученные данные из API погоды:', data);
         return {
             temp: Math.round(data.main.temp),
+            tempMax: Math.round(data.main.temp_max),
+            tempMin: Math.round(data.main.temp_min),
             feelsLike: Math.round(data.main.feels_like),
             description: data.weather[0].description,
             icon: data.weather[0].icon,

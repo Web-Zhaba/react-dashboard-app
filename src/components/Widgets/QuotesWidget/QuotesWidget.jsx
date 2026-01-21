@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { fetchQuotes } from '../../../services/api/QuotesAPI';
 import WidgetContainer from '../WidgetContainer';
+import './quotes.css'
 
 const QuotesWidget = () => {
   const [quote, setQuote] = useState(null);
@@ -24,11 +25,16 @@ const QuotesWidget = () => {
     loadQuotes();
   }, []);
   
+  const handleRefresh = () => {
+    loadQuotes();
+  };
+
   return (
     <WidgetContainer 
       title="Цитаты" 
       loading={loading} 
       error={error}
+      onRefresh={handleRefresh}
     >
       {quote && (
         <div className="quote-content">
