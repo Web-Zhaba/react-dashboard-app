@@ -4,7 +4,7 @@ import WidgetContainer from '../WidgetContainer';
 import './weather.css'
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 
-const WeatherWidget = () => {
+const WeatherWidget = ({ widgetId, onRemove }) => {
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -36,6 +36,9 @@ const WeatherWidget = () => {
       loading={loading} 
       error={error}
       onRefresh={handleRefresh}
+      widgetType="weather"
+      widgetId={widgetId}
+      onRemove={onRemove}
     >
       {weather && (
         <div className="weather-content">

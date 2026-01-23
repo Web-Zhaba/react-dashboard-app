@@ -1,6 +1,6 @@
 :root {
-  --background-dark-color: #36393F;
-  --secondary-dark-color: #202225;
+  --background-dark-color: #252525;
+  --secondary-dark-color: #2a2a2a;
   --middle-dark-color: #29292f;
   --accent-dark-color: #5865f2;
   --sub-text-dark-color: #7f8c8d;
@@ -14,6 +14,23 @@
   color-scheme: dark;
   color: white;
   background-color: var(--background-dark-color);
+}
+:root::-webkit-scrollbar {
+  width: 8px;
+}
+
+:root::-webkit-scrollbar-track {
+  background: var(--middle-dark-color);
+  border-radius: 4px;
+}
+
+:root::-webkit-scrollbar-thumb {
+  background: var(--secondary-dark-color);
+  border-radius: 4px;
+}
+
+:root::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 .dashboard {
   padding: 20px;
@@ -46,21 +63,25 @@
   gap: 5px;
   margin-top: 5px;
 }
-.slot-container{
+.slot-item{
   border-radius: 12px;
-  height: 20rem;
+  min-height: 20rem;
+  height: auto;
 }
-.slot-container[data-swapy-dragging] {
+.slot-item[data-swapy-dragging] {
   box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.15);
+  opacity: 0.8;
+  z-index: 1000;
 }
 .slot{
-  height: 100%;
+  min-height: 20rem;
   margin-bottom: 16px;
   margin-top: 16px;
 }
 .slot[data-swapy-highlighted]{
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 12px;
+  border: 2px dashed rgba(255, 255, 255, 0.3);
 }
 .header-right{
   display: flex;
@@ -101,4 +122,11 @@
 
 .btn-secondary:hover {
   background: #e9ecef;
+}
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--sub-text-dark-color);
+  font-size: 16px;
 }

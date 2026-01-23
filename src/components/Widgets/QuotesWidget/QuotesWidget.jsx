@@ -3,7 +3,7 @@ import { fetchQuotes } from '../../../services/api/QuotesAPI';
 import WidgetContainer from '../WidgetContainer';
 import './quotes.css'
 
-const QuotesWidget = () => {
+const QuotesWidget = ({ widgetId, onRemove }) => {
   const [quote, setQuote] = useState(null);
   const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(null);
@@ -34,7 +34,10 @@ const QuotesWidget = () => {
       title="Цитаты" 
       loading={loading} 
       error={error}
+      widgetType="quotes"
       onRefresh={handleRefresh}
+      widgetId={widgetId}
+      onRemove={onRemove}
     >
       {quote && (
         <div className="quote-content">

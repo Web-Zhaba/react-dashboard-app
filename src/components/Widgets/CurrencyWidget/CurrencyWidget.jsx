@@ -4,7 +4,7 @@ import WidgetContainer from '../WidgetContainer';
 import './currency.css'
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 
-const CurrencyWidget = () => {
+const CurrencyWidget = ({ widgetId, onRemove }) => {
   const [currency, setCurrency] = useState(null);
   const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(null);
@@ -39,8 +39,11 @@ const CurrencyWidget = () => {
     <WidgetContainer
     title={"Курсы валют к рублю"}
     loading={loading} 
+    widgetType="currency"
     error={error}
     onRefresh={handleRefresh}
+    widgetId={widgetId}
+    onRemove={onRemove}
     >
         {currency && (
             <div className='currency-content'>

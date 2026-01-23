@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { 
   MdClose, 
   MdRefresh, 
@@ -26,9 +25,10 @@ const WidgetContainer = ({
   loading = false,
   error = null,
   onRefresh,
-  onRemove = true,
-  onSettings= true,
+  onRemove,
+  onSettings,
   isDraggable = true,
+  widgetType,
   widgetId,
 }) => {
   return (
@@ -37,7 +37,7 @@ const WidgetContainer = ({
     data-widget-id={widgetId}
     >
       <div className="widget-header">
-        <div data-swapy-handle className="widget-header-left">
+        <div className="widget-header-left">
           {isDraggable && (
             <span className="drag-handle">
               <MdDragIndicator size={25} />
