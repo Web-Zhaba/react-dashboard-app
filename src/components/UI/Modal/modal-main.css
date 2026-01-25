@@ -1,3 +1,4 @@
+@import "tailwindcss";
 dialog {
   --background-dark-color: #252525;
   --secondary-dark-color: #2a2a2a;
@@ -81,12 +82,10 @@ dialog {
 .close-button:hover {
   background: #444;
   transform: rotate(90deg);
-  border-color: var(--accent-dark-color);
 }
 
 .modal-content {
   padding: 1.5rem;
-  /* max-height: 60vh; */
   overflow-y: auto;
 }
 
@@ -175,4 +174,34 @@ dialog {
 
 .modal-content::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+@media (max-width: 375px) {
+  .modal-overlay {
+    padding: 0.5rem;
+  }
+  
+  .modal {
+    max-height: 95vh;
+  }
+  
+  .modal-header {
+    padding: 0.75rem 1rem;
+  }
+  
+  .modal-title {
+    font-size: 1rem;
+  }
+  
+  .close-button {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .modal-content {
+    padding: 1rem;
+  }
+  
+  .widget-item {
+    padding: 0.75rem;
+  }
 }

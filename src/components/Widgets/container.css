@@ -1,24 +1,43 @@
+.widget::-webkit-scrollbar {
+  width: 8px;
+}
+
+.widget::-webkit-scrollbar-track {
+  background: var(--background-dark-color);
+  border-radius: 4px;
+}
+
+.widget::-webkit-scrollbar-thumb {
+  background: var(--secondary-dark-color);
+  border-radius: 4px;
+}
+
+.widget::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
 .widget {
-  background: -webkit-linear-gradient(315deg, var(--secondary-dark-color), var(--middle-dark-color));
-  background: -moz-linear-gradient(315deg, var(--secondary-dark-color), var(--middle-dark-color));
-  background: linear-gradient(315deg, var(--secondary-dark-color), var(--middle-dark-color));
+  background: var(--secondary-dark-color);
   border-radius: 12px;
   color: white;
-  padding: 16px;
+  padding: 4px 16px 16px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  height: 100%;
+  max-height: 550px;
   overflow: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--accent-dark-color) var(--secondary-dark-color);
+  -webkit-box-shadow: 0px -5px 5px -5px rgba(0, 0, 0, 0.6) inset;
+  -moz-box-shadow: 0px -5px 5px -5px rgba(0, 0, 0, 0.6) inset;
+  box-shadow: 0px -5px 5px -5px rgba(0, 0, 0, 0.6) inset;
 }
 .widget-header {
   display: flex;
+  position: sticky;
+  top: 0;
   justify-content: space-between;
   border-radius: 12px;
   align-items: center;
-  padding: 4px;
+  padding: 8px;
   background: var(--accent-dark-color);
   color: white;
+  z-index: 10;
 }
 .widget-header-left {
   display: flex;
@@ -36,10 +55,10 @@
   opacity: 1;
 }
 .widget-content {
+  position: relative;
   flex: 1;
   padding: 16px;
   overflow-y: auto;
-
 }
 .widget-title {
   margin: 0;
@@ -118,4 +137,33 @@
   padding: 8px 16px;
   border-radius: 6px;
   cursor: pointer;
+}
+@media (max-width: 375px) {
+  .widget {
+    padding: 2px 8px 8px;
+    border-radius: 8px;
+  }
+  
+  .widget-header {
+    padding: 4px 6px;
+    border-radius: 8px;
+  }
+  
+  .widget-content {
+    padding: 8px;
+  }
+  
+  .widget-title {
+    font-size: 13px;
+  }
+  
+  .action-btn {
+    width: 26px;
+    height: 26px;
+  }
+  
+  .drag-handle svg {
+    width: 20px;
+    height: 20px;
+  }
 }

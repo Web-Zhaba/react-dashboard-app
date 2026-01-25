@@ -1,61 +1,119 @@
-import { useState, useEffect } from 'react';
-import { fetchCurrency } from '../../../services/api/CurrencyAPI'
+import { useState, useEffect, useCallback, useMemo, memo } from 'react';
+import { fetchCurrency, clearCurrencyCache } from '../../../services/api/CurrencyAPI'
 import WidgetContainer from '../WidgetContainer';
-import './currency.css'
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 
-const CurrencyWidget = ({ widgetId, onRemove }) => {
+const CurrencyWidget = memo(({ widgetId, onRemove }) => {
   const [currency, setCurrency] = useState(null);
   const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(null);
   
-  const loadCurrency = async () => {
+  const loadCurrency = useCallback(async () => {
     try {
       setLoading(true);
       const data = await fetchCurrency();
       setCurrency(data);
       setError(null);
     } catch (err) {
-      setError(err.message);
+      setError(err.message || 'Ошибка загрузки валют');
+      console.error('Ошибка загрузки валют:', err);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     loadCurrency();
-  }, []);
+    const intervalId = setInterval(loadCurrency, 24 * 60 * 60 * 1000);
+    return () => clearInterval(intervalId);
+  }, [loadCurrency]);
 
-  const handleRefresh = () => {
+  const handleRefresh = useCallback(() => {
+    clearCurrencyCache();
     loadCurrency();
-  };
+  }, [loadCurrency]);
 
-    function trend(current, previous) {
-    if (current > previous) return (<FaArrowUp color="green" />);
-    if (current < previous) return (<FaArrowDown color="red" />);
+  const currencyDetails = useMemo(() => {
+    if (!currency) return null;
+    
+    return {
+      usdRateString: `${currency.usdRate}₽`,
+      eurRateString: `${currency.eurRate}₽`,
+      cnyRateString: `${currency.cnyRate}₽`,
+      inrRateString: `${currency.inrRate}₽`,
+      usdPreviousString: `${currency.usdPrevious}₽`,
+      eurPreviousString: `${currency.eurPrevious}₽`,
+      cnyPreviousString: `${currency.cnyPrevious}₽`,
+      inrPreviousString: `${currency.inrPrevious}₽`,
+    };
+  }, [currency]);
+
+  function trend(current, previous) {
+    if (current > previous) return (<FaArrowUp className="inline text-green-500 w-3 h-3 sm:w-4 sm:h-4" />);
+    if (current < previous) return (<FaArrowDown className="inline text-red-500 w-3 h-3 sm:w-4 sm:h-4" />);
     return '';
   }
+
   return (
     <WidgetContainer
-    title={"Курсы валют к рублю"}
-    loading={loading} 
-    widgetType="currency"
-    error={error}
-    onRefresh={handleRefresh}
-    widgetId={widgetId}
-    onRemove={onRemove}
+      title={"Курсы валют к рублю"}
+      loading={loading} 
+      widgetType="currency"
+      error={error}
+      onRefresh={handleRefresh}
+      widgetId={widgetId}
+      onRemove={onRemove}
     >
-        {currency && (
-            <div className='currency-content'>
-                <div className='usd'>1$ Доллар США = {currency.usdRate}₽ {trend(currency.usdRate, currency.usdPrevious)}<span className='previous'>{currency.usdPrevious}₽</span></div>
-                <div className='eur'>1€ Евро = {currency.eurRate}₽ {trend(currency.eurRate, currency.eurPrevious)}<span className='previous'>{currency.eurPrevious}₽</span></div>
-                <div className='cny'>1￥ Юань = {currency.cnyRate}₽ {trend(currency.cnyRate, currency.cnyPrevious)}<span className='previous'>{currency.cnyPrevious}₽</span></div>
-                <div className='inr'>100₹ Индийских рупий = {currency.inrRate}₽ {trend(currency.inrRate, currency.inrPrevious)}<span className='previous'>{currency.inrPrevious}₽</span></div>
+      {currency && currencyDetails && (
+        <div className='currency-content space-y-3 sm:space-y-4'>
+          <div className='flex flex-col sm:flex-row sm:items-center justify-between p-2 bg-background-dark rounded-lg'>
+            <div className='text-sm sm:text-base font-medium'>1$ Доллар США</div>
+            <div className='flex items-center justify-between sm:justify-end sm:gap-4'>
+              <span className='text-lg sm:text-xl font-bold'>{currencyDetails.usdRateString}</span>
+              <span className='flex items-center text-sub-text-dark text-xs sm:text-sm'>
+                {trend(currency.usdRate, currency.usdPrevious)}
+                <span className='ml-1'>{currency.usdPrevious}₽</span>
+              </span>
             </div>
-        )}
+          </div>
+          
+          <div className='flex flex-col sm:flex-row sm:items-center justify-between p-2 bg-background-dark rounded-lg'>
+            <div className='text-sm sm:text-base font-medium'>1€ Евро</div>
+            <div className='flex items-center justify-between sm:justify-end sm:gap-4'>
+              <span className='text-lg sm:text-xl font-bold'>{currencyDetails.eurRateString}</span>
+              <span className='flex items-center text-sub-text-dark text-xs sm:text-sm'>
+                {trend(currency.eurRate, currency.eurPrevious)}
+                <span className='ml-1'>{currency.eurPrevious}₽</span>
+              </span>
+            </div>
+          </div>
+          
+          <div className='flex flex-col sm:flex-row sm:items-center justify-between p-2 bg-background-dark rounded-lg'>
+            <div className='text-sm sm:text-base font-medium'>1¥ Юань</div>
+            <div className='flex items-center justify-between sm:justify-end sm:gap-4'>
+              <span className='text-lg sm:text-xl font-bold'>{currencyDetails.cnyRateString}</span>
+              <span className='flex items-center text-sub-text-dark text-xs sm:text-sm'>
+                {trend(currency.cnyRate, currency.cnyPrevious)}
+                <span className='ml-1'>{currency.cnyPrevious}₽</span>
+              </span>
+            </div>
+          </div>
+          
+          <div className='flex flex-col sm:flex-row sm:items-center justify-between p-2 bg-background-dark rounded-lg'>
+            <div className='text-sm sm:text-base font-medium'>100₹ Индийских рупий</div>
+            <div className='flex items-center justify-between sm:justify-end sm:gap-4'>
+              <span className='text-lg sm:text-xl font-bold'>{currencyDetails.inrRateString}</span>
+              <span className='flex items-center text-sub-text-dark text-xs sm:text-sm'>
+                {trend(currency.inrRate, currency.inrPrevious)}
+                <span className='ml-1'>{currency.inrPrevious}₽</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
     </WidgetContainer>
-  )
+  );
+});
 
-}
-
+CurrencyWidget.displayName = 'CurrencyWidget';
 export default CurrencyWidget;
