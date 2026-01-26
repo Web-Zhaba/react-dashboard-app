@@ -59,16 +59,16 @@ const WeatherWidget = memo(({ widgetId, onRemove }) => {
     >
       {weather && weatherDetails && (
         <div className="weather-content">
-          <div className="flex justify-center items-center mb-3">
+          <div className="flex justify-center items-center mb-3 relative">
             <input 
               placeholder='Введите город' 
               type="text" 
-              className="rounded-xl placeholder:text-sub-text-dark placeholder:text-sm sm:placeholder:text-lg text-center text-lg sm:text-2xl w-full max-w-xs focus:outline-2 focus:-outline-offset-2 focus:outline-accent-dark p-2" 
+              className="rounded-xl placeholder:text-sub-text-dark placeholder:text-sm sm:placeholder:text-lg text-center text-lg sm:text-2xl w-full max-w-2xs focus:outline-2 focus:-outline-offset-2 focus:outline-accent-dark p-2" 
               {...input}
             />
             <button 
               onClick={handleRefresh} 
-              className="ml-2 p-2 hover:scale-110 duration-200"
+              className="ml-80 p-2 hover:scale-110 duration-200 absolute"
               aria-label="Поиск погоды"
             >
               <FaSearchLocation className='w-5 h-5 sm:w-6 sm:h-6' />
@@ -100,7 +100,6 @@ const WeatherWidget = memo(({ widgetId, onRemove }) => {
             <div className="text-2xl font-bold text-gray-800 text-center">{weatherDetails.feelsLikeString}</div>
           </div>
 
-          {/* Дополнительная информация */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
             <div className="p-2 bg-gray-700 rounded-lg hover:scale-110 duration-200">
               <WiWindy 
