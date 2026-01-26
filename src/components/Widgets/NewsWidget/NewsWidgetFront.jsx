@@ -11,7 +11,8 @@ const NewsWidget = memo(({ widgetId, onRemove }) => {
   const [visibleCount, setVisibleCount] = useState(2);
   const [selectedCategory, setSelectedCategory] = useState('general');
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
-  const [categories, setCategories] = useState([]);
+  
+  const categories = useMemo(() => getNewsCategories(), []);
 
   const loadNews = useCallback(async (category = selectedCategory) => {
     try {
@@ -32,19 +33,6 @@ const NewsWidget = memo(({ widgetId, onRemove }) => {
     const intervalId = setInterval(loadNews, 60 * 60 * 1000);
     return () => clearInterval(intervalId);
   }, [loadNews]);
-
-  useEffect(() => {
-    const loadCategories = async () => {
-      try {
-        const cats = await getNewsCategories();
-        setCategories(cats);
-      } catch (error) {
-        console.error('Error loading categories:', error);
-      }
-    };
-    
-    loadCategories();
-  }, []);
 
   const handleRefresh = useCallback(() => {
     clearNewsCache(selectedCategory);
@@ -109,12 +97,13 @@ const NewsWidget = memo(({ widgetId, onRemove }) => {
     >
       {showCategoryDropdown && (
         <div 
-          className="absolute right-0 top-full mt-2 w-48 bg-gray-800 border border-gray-700 rounded-lg shadow-lg z-1"
+          className="absolute right-0 top-full mt-2 w-48 bg-gray-800 border border-gray-700 rounded-lg shadow-lg z-50"
           style={{
-            right: '8px', 
-            top: '45px'   
-          }}>
-          <div className="scroll p-2 max-h-60 overflow-y-auto [&::-webkit-scrollbar-thumb]:bg-[#555] [&::-webkit-scrollbar-thumb]:rounded-sm [&::-webkit-scrollbar-track]:bg-background-dark [&::-webkit-scrollbar-track]:rounded-sm [&::-webkit-scrollbar]:w-2">
+            right: '8px',
+            top: '45px'  
+          }}
+        >
+          <div className="scroll p-2 max-h-60 overflow-y-auto">
             <div className="text-xs text-sub-text-dark mb-2 px-2">Выберите категорию:</div>
             {categories.map((category) => (
               <button
@@ -127,7 +116,7 @@ const NewsWidget = memo(({ widgetId, onRemove }) => {
                 }`}
               >
                 <div className="flex items-center">
-                  <span className="grow">{category.icon}{category.name}</span>
+                  <span className="grow">{category.name}</span>
                   {selectedCategory === category.id && (
                     <span className="w-2 h-2 bg-white rounded-full"></span>
                   )}
@@ -139,7 +128,6 @@ const NewsWidget = memo(({ widgetId, onRemove }) => {
       )}
       {news && news.articles && (
         <div className="news-content">
-
           <div className="flex items-center justify-between mb-4 p-2 bg-gray-800/30 rounded-lg">
             <div className="flex items-center text-sub-text-dark text-sm">
               <FaNewspaper className="mr-2" />
@@ -169,6 +157,7 @@ const NewsWidget = memo(({ widgetId, onRemove }) => {
                     key={index} 
                     className="bg-gray-800/40 rounded-xl p-3 hover:bg-gray-800/60 transition-all duration-200 border-l-4 border-accent-dark"
                   >
+
                     <div className="flex justify-between items-start mb-2">
                       <h3 className="font-medium text-white text-sm sm:text-base line-clamp-2 grow">
                         {truncateText(article.title, 60)}
@@ -217,8 +206,6 @@ const NewsWidget = memo(({ widgetId, onRemove }) => {
                           loading="lazy"
                           onError={(e) => {
                             e.target.style.display = 'none';
-                            e.target.onerror = null;
-                            e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIGZpbGw9IiMyNTI1MjUiLz48cGF0aCBkPSJNMjAgMTJDMjEuNjUgMTIgMjMgMTMuMzUgMjMgMTVWMjFDMjMgMjIuNjUgMjEuNjUgMjQgMjAgMjRDMTAuNDUgMjQgNSAyOS40NSA1IDM5IiBzdHJva2U9IiM1ODY1RjIiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+';
                           }}
                         />
                       </div>
@@ -226,8 +213,7 @@ const NewsWidget = memo(({ widgetId, onRemove }) => {
                   </div>
                 ))}
               </div>
-
-              {news.articles.length > 2 && (
+              {news.articles.length > 5 && (
                 <div className="mt-4 text-center">
                   {visibleCount < news.articles.length ? (
                     <button

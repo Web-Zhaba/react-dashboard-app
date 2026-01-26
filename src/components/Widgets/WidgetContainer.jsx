@@ -36,6 +36,7 @@ const WidgetContainer = ({
     className={`widget ${loading ? 'loading' : ''} ${error ? 'error' : ''}`}
     data-widget-id={widgetId}
     >
+      {/* не работает :(( )) */}
       <div className="widget-header">
         <div className="widget-header-left">
           {isDraggable && (
