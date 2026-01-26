@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const PORT = process.env.PORT || 3001;
-const NEWS_API_KEY = process.env.NEWS_API_KEY;
+const NEWS_API_KEY = '51f130461f55455591598e3ddb185531';
 
 if (!NEWS_API_KEY) {
   console.error('ERROR: NEWS_API_KEY is not defined in environment variables');
