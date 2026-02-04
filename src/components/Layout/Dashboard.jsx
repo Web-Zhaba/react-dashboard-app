@@ -6,10 +6,20 @@ import NewsWidget from '../Widgets/NewsWidget/NewsWidget';
 import { useEffect, useState, useCallback } from 'react';
 import { MdDashboard } from "react-icons/md";
 import MainModal from '../UI/Modal/MainModal';
-import { MdDateRange } from "react-icons/md";
+import { MdDateRange, MdOutlineSave } from "react-icons/md";
+
+const WIDGETS_STORAGE_KEY = 'dashboard-widgets';
 
 const Dashboard = () => {
-  const [widgets, setWidgets] = useState([]);
+  const [widgets, setWidgets] = useState(() => {
+    try {
+      const stored = localStorage.getItem(WIDGETS_STORAGE_KEY);
+      return stored ? JSON.parse(stored) : [];
+    } catch (error) {
+      console.error('Ошибка загрузки виджетов из localStorage:', error);
+      return [];
+    }
+  });
 
   // Функция добавления виджета (всё гуд)
   const handleAddWidget = (widgetType) => {
@@ -24,6 +34,16 @@ const Dashboard = () => {
     
     setWidgets(prev => [...prev, newWidget]);
   };
+
+  // Функция сохранения макета (списка и порядка расположения виджетов)
+  const saveLayout = useCallback(() => {
+    try {
+      localStorage.setItem(WIDGETS_STORAGE_KEY, JSON.stringify(widgets));
+      console.log('Макет сохранен:', widgets);
+    } catch (error) {
+      console.error('Ошибка сохранения в localStorage:', error);
+    }
+  }, [widgets]); 
 
   // Функция удаления виджета
   const handleRemoveWidget = useCallback((widgetId) => {
@@ -71,10 +91,10 @@ const Dashboard = () => {
           onAddWidget={handleAddWidget} 
           />
           <button
-          disabled={true}
-          className="bg-white text-sub-text-dark hover:bg-gray-300 hover:-translate-y-0.5 hover:shadow-2xs disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 rounded-md text-sm font-medium py-2 px-3 sm:py-2.5 sm:px-4 w-full sm:w-auto duration-200 text-xs sm:text-sm"
+          onClick={saveLayout}
+          className="cursor-pointer bg-white text-black hover:bg-gray-300 hover:-translate-y-0.5 hover:shadow-2xs disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 rounded-md text-sm font-medium py-2 px-3 sm:py-2.5 sm:px-4 w-full sm:w-auto duration-200 text-xs sm:text-sm"
           >
-            Сохранить макет
+            <MdOutlineSave className='text-base sm:text-lg' />Сохранить макет
           </button>
         </div>
       </header>
