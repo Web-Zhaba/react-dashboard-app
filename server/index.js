@@ -20,7 +20,7 @@ if (!NEWS_API_KEY) {
 
 const allowedOrigins = [
   'http://localhost:5173',
-  // Добавьте ваш домен Vercel после деплоя
+  'https://dashapp-phi.vercel.app/'
 ];
 
 const corsOptions = {
