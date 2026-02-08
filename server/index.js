@@ -3,12 +3,12 @@ require ('dotenv').config()
 const express = require('express');
 const app = express();
 const cors = require("cors");
-const corsOptions = {
-    origin: ["http://localhost:5173"],
-    optionsSuccessStatus: 200
-};
+// const corsOptions = {
+//     origin: ["http://localhost:5173"],
+//     optionsSuccessStatus: 200
+// };
 
-const PORT = process.env.PORT || 8081
+// const PORT = process.env.PORT || 8081
 const NEWS_API_KEY = process.env.NEWS_API_KEY;
 
 if (!NEWS_API_KEY) {
@@ -17,6 +17,32 @@ if (!NEWS_API_KEY) {
   console.error('Or set it in your environment: export NEWS_API_KEY=your_api_key');
   process.exit(1);
 }
+
+const allowedOrigins = [
+  'http://localhost:5173',
+  // Добавьте ваш домен Vercel после деплоя
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Разрешить запросы без origin (например, Postman)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      // В режиме разработки разрешаем локальные запросы
+      if (process.env.NODE_ENV !== 'production') {
+        console.log(`Разрешен origin: ${origin} (dev mode)`);
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    }
+  },
+  optionsSuccessStatus: 200,
+  credentials: true
+};
 
 app.use(cors(corsOptions));
 app.use(express.json());
@@ -152,6 +178,14 @@ app.get('/api/news-categories', (req, res) => {
   ]);
 });
 
+app.get('/api/health', (req, res) => {
+  res.json({ 
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development'
+  });
+});
+
 app.get('/', (req, res) => {
   res.json({ 
     message: 'News API бекэнд', 
@@ -167,10 +201,4 @@ app.get('/', (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`Сервер запущен на порту: ${PORT}`);
-  console.log(`News API: http://localhost:${PORT}/api/news`);
-  console.log(`Новости по категориям: http://localhost:${PORT}/api/news/technology`);
-  console.log(`Категории: http://localhost:${PORT}/api/news-categories`);
-  console.log(`API Key настроен: ${NEWS_API_KEY ? '✅ Yes' : '❌ No'}`);
-});
+module.exports = app;

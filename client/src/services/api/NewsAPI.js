@@ -1,4 +1,14 @@
-const BACKEND_URL = 'http://localhost:8080';
+// Определяем базовый URL в зависимости от окружения
+const getBackendUrl = () => {
+  // Для продакшена (Vercel) используем относительный путь
+  if (process.env.NODE_ENV === 'production') {
+    return '';
+  }
+  // Для разработки используем localhost
+  return 'http://localhost:8081';
+};
+
+const BACKEND_URL = getBackendUrl();
 
 const cache = {
   // Структура: { 'general': { data: {...}, timestamp: 123 }, 'sports': {...} }
@@ -15,10 +25,8 @@ export const fetchNews = async (category = 'general') => {
   }
   
   try {
-    // Если категория 'general', используем базовый URL, иначе с категорией
-    const url = category === 'general' 
-      ? `${BACKEND_URL}/api/news`
-      : `${BACKEND_URL}/api/news/${category}`;
+    // Всегда используем URL с категорией (даже для general)
+    const url = `${BACKEND_URL}/api/news/${category}`;
     
     const response = await fetch(url);
     
@@ -71,7 +79,7 @@ export const clearNewsCache = (category = null) => {
   }
 };
 
-// Получение категорий с бэкенда
+// Получение категорий (статические)
 export const getNewsCategories = () => {
   return [
     { id: 'general', name: 'Общие'},
