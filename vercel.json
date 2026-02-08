@@ -20,7 +20,13 @@
     },
     {
       "src": "/(.*)",
-      "dest": "client/dist/$1"
+      "dest": "/$1"
+    }
+  ],
+    "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
   "env": {
