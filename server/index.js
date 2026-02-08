@@ -20,7 +20,7 @@ if (!NEWS_API_KEY) {
 
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://dashapp-phi.vercel.app'
+  'https://react-dashboard-app-omega.vercel.app'
 ];
 
 const corsOptions = {
