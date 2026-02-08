@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://react-dashboard-app-omega.vercel.app';
+const API_BASE_URL = 'https://dashserver.vercel.app';
 
 const cache = {
   // Структура: { 'general': { data: {...}, timestamp: 123 }, 'sports': {...} }
