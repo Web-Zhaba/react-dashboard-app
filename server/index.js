@@ -3,12 +3,6 @@ require ('dotenv').config()
 const express = require('express');
 const app = express();
 const cors = require("cors");
-// const corsOptions = {
-//     origin: ["http://localhost:5173"],
-//     optionsSuccessStatus: 200
-// };
-
-// const PORT = process.env.PORT || 8081
 const NEWS_API_KEY = process.env.NEWS_API_KEY;
 
 if (!NEWS_API_KEY) {
@@ -24,24 +18,8 @@ const allowedOrigins = [
 ];
 
 const corsOptions = {
-  origin: function (origin, callback) {
-    // Разрешить запросы без origin (например, Postman)
-    if (!origin) return callback(null, true);
-    
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      // В режиме разработки разрешаем локальные запросы
-      if (process.env.NODE_ENV !== 'production') {
-        console.log(`Разрешен origin: ${origin} (dev mode)`);
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    }
-  },
-  optionsSuccessStatus: 200,
-  credentials: true
+  origin: '*', 
+  optionsSuccessStatus: 200
 };
 
 app.use(cors(corsOptions));

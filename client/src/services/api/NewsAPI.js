@@ -1,6 +1,4 @@
-const API_BASE_URL = import.meta.env.DEV 
-  ? 'http://localhost:8081' 
-  : 'https://react-dashboard-app-omega.vercel.app'; // ваш реальный URL API
+const API_BASE_URL = 'https://react-dashboard-app-omega.vercel.app';
 
 const cache = {
   // Структура: { 'general': { data: {...}, timestamp: 123 }, 'sports': {...} }
