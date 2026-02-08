@@ -56,7 +56,7 @@ const QuotesWidget = memo(({ widgetId, onRemove }) => {
     >
       {quote && quotesDetails && (
         <div className="quote-content flex flex-col h-full">
-          <blockquote className="bg-background-dark p-4 sm:p-5 rounded-xl text-center text-sm sm:text-base lg:text-lg flex-grow flex items-center justify-center">
+          <blockquote className="bg-background-dark p-4 sm:p-5 rounded-xl text-center text-sm sm:text-base lg:text-lg grow flex items-center justify-center">
             "{quotesDetails.quoteString}"
           </blockquote>
           

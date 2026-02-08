@@ -1,0 +1,217 @@
+@import "tailwindcss";
+dialog {
+  --background-dark-color: #252525;
+  --secondary-dark-color: #2a2a2a;
+  --middle-dark-color: #29292f;
+  --accent-dark-color: #5865f2;
+  --sub-text-dark-color: #7f8c8d;
+  padding: 0;
+  border: none;
+  max-width: 100vw; 
+  max-height: 100vh; 
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: right;
+  z-index: 1000;
+  backdrop-filter: blur(1px);
+  transition: opacity 0.3s ease;
+  overflow: hidden;
+}
+
+.modal {
+  background: var(--background-dark-color);
+  border-radius: 16px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  margin: 20px;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+@keyframes modalEnter {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #333;
+  background: var(--secondary-dark-color);
+}
+
+.modal-title {
+  color: #e0e0e0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.modal-title svg {
+  color: #60a5fa;
+}
+
+.close-button {
+  background: #333;
+  border: #333 1px solid 2px transparent;
+  color: #e0e0e0;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.close-button:hover {
+  background: #444;
+  transform: rotate(90deg);
+}
+
+.modal-content {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.widget-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.widget-item {
+  margin-top: 1.25rem;
+  background: #333;
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-align: center;
+  transition: all 0.25s ease;
+  border: 2px solid transparent;
+}
+
+.widget-item:hover {
+  background: #3a3a3a;
+  transform: translateY(-4px);
+  border-color: var(--accent-dark-color);
+}
+
+.widget-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+  color: #60a5fa;
+}
+
+.widget-name {
+  color: #e0e0e0;
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.widget-description {
+  color: var(--sub-text-dark-color);
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+.add-widget-button {
+  background: var(--accent-dark-color);
+  color: #e0e0e0;
+  font-weight: 400;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  width: 100%;
+  margin-top: 1.5rem;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.add-widget-button:hover {
+  background: #3b82f6;
+  transform: translateY(-2px);
+}
+
+.widget-item:hover {
+  background: #3a3a3a;
+  transform: translateY(-4px);
+  border-color: var(--accent-dark-color);
+}
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: var(--middle-dark-color);
+  border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: var(--accent-dark-color);
+  border-radius: 4px;
+}
+@media (max-width: 375px) {
+  .modal-overlay {
+    padding: 0.5rem;
+    align-items: flex-start;
+  }
+  
+  .modal {
+    max-height: 95vh;
+    margin: 0.5rem;
+  }
+  
+  .modal-header {
+    padding: 0.75rem 1rem;
+  }
+  
+  .modal-title {
+    font-size: 1rem;
+  }
+  
+  .close-button {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .modal-content {
+    padding: 1rem;
+  }
+  
+  .widget-item {
+    padding: 0.75rem;
+  }
+}
+@media (max-width: 1024px) {
+  .modal {
+    max-height: 85vh;
+  }
+}

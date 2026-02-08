@@ -6,6 +6,7 @@ import ModalWidget from "./ModalWidget";
 import { MdDashboardCustomize, MdCurrencyExchange, MdDewPoint } from "react-icons/md";
 import { FaNewspaper } from 'react-icons/fa'
 import { TbBlockquote } from "react-icons/tb";
+import { LuListTodo } from "react-icons/lu";
 
 export default function MainModal({ className, onAddWidget }) {
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -75,6 +76,16 @@ export default function MainModal({ className, onAddWidget }) {
                                 description={'Предоставляет список лучших новостей на сегодня'}
                                 onAdd={() => handleAddWidget('news')}
                                 />
+
+                                <ModalWidget 
+                                name={
+                                <p className="flex items-center justify-center gap-1 sm:gap-2">
+                                    <LuListTodo className="text-lg sm:text-xl"/> 
+                                    <span className="text-sm sm:text-base">Список дел</span>
+                                </p>}
+                                description={'Тут вы можете составлять и изменять список своих задач'}
+                                onAdd={() => handleAddWidget('todo')}
+                                />                                
                             </div>
                         </div>
                     </div>

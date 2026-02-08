@@ -38,6 +38,12 @@ const WeatherWidget = memo(({ widgetId, onRemove }) => {
     loadWeather();
   }, [loadWeather]);
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleRefresh();
+    }
+  };
+  
   const weatherDetails = useMemo(() => {
     if (!weather) return null;
     return {
@@ -63,6 +69,7 @@ const WeatherWidget = memo(({ widgetId, onRemove }) => {
             <input 
               placeholder='Введите город' 
               type="text" 
+              onKeyDown={handleKeyDown}
               className="rounded-xl placeholder:text-sub-text-dark placeholder:text-sm sm:placeholder:text-lg text-center text-lg sm:text-2xl w-full max-w-2xs focus:outline-2 focus:-outline-offset-2 focus:outline-accent-dark p-2" 
               {...input}
             />

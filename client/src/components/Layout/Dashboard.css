@@ -39,7 +39,7 @@
 }
 
 :root::-webkit-scrollbar-thumb {
-  background: var(--secondary-dark-color);
+  background: var(--accent-dark-color);
   border-radius: 4px;
 }
 
