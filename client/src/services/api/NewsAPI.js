@@ -1,14 +1,6 @@
-// Определяем базовый URL в зависимости от окружения
-const getBackendUrl = () => {
-  // Для продакшена (Vercel) используем относительный путь
-  if (process.env.NODE_ENV === 'production') {
-    return '';
-  }
-  // Для разработки используем localhost
-  return 'http://localhost:8081';
-};
-
-const BACKEND_URL = getBackendUrl();
+const API_BASE_URL = import.meta.env.DEV 
+  ? 'http://localhost:8081' 
+  : 'https://react-dashboard-app-omega.vercel.app'; // ваш реальный URL API
 
 const cache = {
   // Структура: { 'general': { data: {...}, timestamp: 123 }, 'sports': {...} }
@@ -26,7 +18,7 @@ export const fetchNews = async (category = 'general') => {
   
   try {
     // Всегда используем URL с категорией (даже для general)
-    const url = `${BACKEND_URL}/api/news/${category}`;
+    const url = `${API_BASE_URL}/api/news/${category}`;
     
     const response = await fetch(url);
     
