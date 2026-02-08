@@ -55,7 +55,7 @@ export const clearNewsCache = (category = null) => {
   if (category) {
     delete cache[category];
     // Очищаем кэш на бэкенде
-    fetch(`${BACKEND_URL}/api/news/cache/${category}`, {
+    fetch(`${API_BASE_URL}/api/news/cache/${category}`, {
       method: 'DELETE'
     }).catch(err => console.error('Ошибка очистки кеша на бекэнде:', err));
     
@@ -63,7 +63,7 @@ export const clearNewsCache = (category = null) => {
   } else {
     Object.keys(cache).forEach(key => delete cache[key]);
     // Очищаем весь кэш на бэкенде
-    fetch(`${BACKEND_URL}/api/news/cache`, {
+    fetch(`${API_BASE_URL}/api/news/cache`, {
       method: 'DELETE'
     }).catch(err => console.error('Ошибка очистки кеша на бекэнде:', err));
     
