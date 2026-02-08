@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback, useMemo, memo } from 'react';
 import { fetchNews, clearNewsCache, getNewsCategories } from '../../../services/api/NewsAPI'
 import WidgetContainer from '../WidgetContainer';
-import { FaExternalLinkAlt, FaCalendarAlt, FaNewspaper, FaChevronDown } from 'react-icons/fa';
-import { MdAccessTime, MdFilterList } from 'react-icons/md';
+import { FaExternalLinkAlt, FaNewspaper } from 'react-icons/fa';
+import { MdAccessTime } from 'react-icons/md';
 import './NewsWidget.css'
 
 const NewsWidget = memo(({ widgetId, onRemove }) => {

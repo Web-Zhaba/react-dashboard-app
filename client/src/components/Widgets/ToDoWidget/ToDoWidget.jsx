@@ -101,7 +101,7 @@ export default function ToDoWidget ({ widgetId, onRemove }) {
                             className="px-4 py-2 bg-accent-dark text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center gap-1"
                             aria-label="Добавить задачу"
                         >
-                            <MdControlPoint className="w-5 h-5" />
+                            <MdControlPoint className="w-5 h-5 sm:w-6 sm:h-6" />
                             <span className="hidden sm:inline">Добавить</span>
                         </button>
                     </div>

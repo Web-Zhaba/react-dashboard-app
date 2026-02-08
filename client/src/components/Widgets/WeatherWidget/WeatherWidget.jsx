@@ -46,10 +46,11 @@ const WeatherWidget = memo(({ widgetId, onRemove }) => {
   
   const weatherDetails = useMemo(() => {
     if (!weather) return null;
+    console.log(`./icons/${weather.icon}.svg`)
     return {
       tempString: `${weather.temp}°C`,
       feelsLikeString: `${weather.feelsLike}°C`,
-      iconUrl: `https://openweathermap.org/img/wn/${weather.icon}@2x.png`,
+      iconUrl: `icons/${weather.icon}.svg`,
     };
   }, [weather]);
 
@@ -65,23 +66,26 @@ const WeatherWidget = memo(({ widgetId, onRemove }) => {
     >
       {weather && weatherDetails && (
         <div className="weather-content">
-          <div className="flex justify-center items-center mb-3 relative">
-            <input 
-              placeholder='Введите город' 
-              type="text" 
-              onKeyDown={handleKeyDown}
-              className="rounded-xl placeholder:text-sub-text-dark placeholder:text-sm sm:placeholder:text-lg text-center text-lg sm:text-2xl w-full max-w-2xs focus:outline-2 focus:-outline-offset-2 focus:outline-accent-dark p-2" 
-              {...input}
-            />
-            <button 
-              onClick={handleRefresh} 
-              className="ml-80 p-2 hover:scale-110 duration-200 absolute"
-              aria-label="Поиск погоды"
-            >
-              <FaSearchLocation className='w-5 h-5 sm:w-6 sm:h-6' />
-            </button>
+          <div className="w-full mb-4">
+            <div className="flex gap-2">
+              <input 
+                placeholder='Введите город' 
+                type="text" 
+                onKeyDown={handleKeyDown}
+                className="grow p-2 border border-accent-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-dark" 
+                {...input}
+              />
+              <button 
+                onClick={handleRefresh} 
+                className="px-4 py-2 bg-accent-dark text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center gap-1"
+                aria-label="Поиск погоды"
+              >
+                <FaSearchLocation className='w-5 h-5 sm:w-6 sm:h-6' />
+                <span className='hidden sm:inline'>Поиск</span>
+              </button>
+            </div>
           </div>
-          
+
           <div className="flex flex-col sm:flex-row justify-between items-center sm:items-start mb-4">
             <p className="text-4xl sm:text-5xl lg:text-6xl order-2 sm:order-1">{weatherDetails.tempString}</p>
             <div className='text-center sm:text-left order-1 sm:order-2 mb-3 sm:mb-0'>
@@ -97,8 +101,8 @@ const WeatherWidget = memo(({ widgetId, onRemove }) => {
             </div>
           </div>
           <img
-            className='block mx-auto scale-100 sm:scale-125 lg:scale-150 my-4' 
-            src={weatherDetails.iconUrl} 
+            className='block mx-auto my-4 w-40 drop-shadow-2xl' 
+            src={`./icons/${weather.icon}.svg`} 
             alt={weather.description}
             loading="lazy"
           />

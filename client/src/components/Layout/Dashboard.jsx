@@ -7,7 +7,7 @@ import ToDoWidget from '../Widgets/ToDoWidget/ToDoWidget';
 import { useEffect, useState, useCallback } from 'react';
 import { MdDashboard } from "react-icons/md";
 import MainModal from '../UI/Modal/MainModal';
-import { MdDateRange, MdOutlineSave } from "react-icons/md";
+import { MdDateRange, MdSave } from "react-icons/md";
 
 const WIDGETS_STORAGE_KEY = 'dashboard-widgets';
 
@@ -97,7 +97,7 @@ const Dashboard = () => {
           onClick={saveLayout}
           className="cursor-pointer bg-white text-black hover:bg-gray-300 hover:-translate-y-0.5 hover:shadow-2xs disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 rounded-md text-sm font-medium py-2 px-3 sm:py-2.5 sm:px-4 w-full sm:w-auto duration-200 text-xs sm:text-sm"
           >
-            <MdOutlineSave className='text-base sm:text-lg' />Сохранить макет
+            <MdSave className='text-base sm:text-lg' />Сохранить макет
           </button>
         </div>
       </header>
