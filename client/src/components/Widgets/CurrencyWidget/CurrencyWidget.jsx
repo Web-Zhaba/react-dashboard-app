@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useMemo, memo } from 'react';
 import { fetchCurrency, clearCurrencyCache } from '../../../services/api/CurrencyAPI'
 import WidgetContainer from '../WidgetContainer';
+import CurrencyRow from './parts/CurrencyRow';
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 
 const CurrencyWidget = memo(({ widgetId, onRemove }) => {
@@ -33,26 +34,17 @@ const CurrencyWidget = memo(({ widgetId, onRemove }) => {
     loadCurrency();
   }, [loadCurrency]);
 
-  const currencyDetails = useMemo(() => {
-    if (!currency) return null;
-    
-    return {
-      usdRateString: `${currency.usdRate}₽`,
-      eurRateString: `${currency.eurRate}₽`,
-      cnyRateString: `${currency.cnyRate}₽`,
-      inrRateString: `${currency.inrRate}₽`,
-      usdPreviousString: `${currency.usdPrevious}₽`,
-      eurPreviousString: `${currency.eurPrevious}₽`,
-      cnyPreviousString: `${currency.cnyPrevious}₽`,
-      inrPreviousString: `${currency.inrPrevious}₽`,
-    };
-  }, [currency]);
+  const [amount, setAmount] = useState(1);
+  const [selectedCurrency, setSelectedCurrency] = useState('USD');
 
-  function trend(current, previous) {
-    if (current > previous) return (<FaArrowUp className="inline text-green-500 w-3 h-3 sm:w-4 sm:h-4" />);
-    if (current < previous) return (<FaArrowDown className="inline text-red-500 w-3 h-3 sm:w-4 sm:h-4" />);
-    return '';
-  }
+  const convertedValue = useMemo(() => {
+    if (!currency) return 0;
+    const rate = selectedCurrency === 'USD' ? currency.usdRate :
+                 selectedCurrency === 'EUR' ? currency.eurRate :
+                 selectedCurrency === 'CNY' ? currency.cnyRate :
+                 (currency.inrRate / 100);
+    return (amount * rate).toFixed(2);
+  }, [amount, selectedCurrency, currency]);
 
   return (
     <WidgetContainer
@@ -64,49 +56,56 @@ const CurrencyWidget = memo(({ widgetId, onRemove }) => {
       widgetId={widgetId}
       onRemove={onRemove}
     >
-      {currency && currencyDetails && (
+      {currency && (
         <div className='currency-content space-y-3 sm:space-y-4'>
-          <div className='flex flex-col sm:flex-row sm:items-center justify-between p-2 bg-background-dark rounded-lg'>
-            <div className='text-sm sm:text-base font-medium'>1$ Доллар США</div>
-            <div className='flex items-center justify-between sm:justify-end sm:gap-4'>
-              <span className='text-lg sm:text-xl font-bold'>{currencyDetails.usdRateString}</span>
-              <span className='flex items-center text-sub-text-dark text-xs sm:text-sm'>
-                {trend(currency.usdRate, currency.usdPrevious)}
-                <span className='ml-1'>{currency.usdPrevious}₽</span>
-              </span>
-            </div>
-          </div>
-          
-          <div className='flex flex-col sm:flex-row sm:items-center justify-between p-2 bg-background-dark rounded-lg'>
-            <div className='text-sm sm:text-base font-medium'>1€ Евро</div>
-            <div className='flex items-center justify-between sm:justify-end sm:gap-4'>
-              <span className='text-lg sm:text-xl font-bold'>{currencyDetails.eurRateString}</span>
-              <span className='flex items-center text-sub-text-dark text-xs sm:text-sm'>
-                {trend(currency.eurRate, currency.eurPrevious)}
-                <span className='ml-1'>{currency.eurPrevious}₽</span>
-              </span>
-            </div>
-          </div>
-          
-          <div className='flex flex-col sm:flex-row sm:items-center justify-between p-2 bg-background-dark rounded-lg'>
-            <div className='text-sm sm:text-base font-medium'>1¥ Юань</div>
-            <div className='flex items-center justify-between sm:justify-end sm:gap-4'>
-              <span className='text-lg sm:text-xl font-bold'>{currencyDetails.cnyRateString}</span>
-              <span className='flex items-center text-sub-text-dark text-xs sm:text-sm'>
-                {trend(currency.cnyRate, currency.cnyPrevious)}
-                <span className='ml-1'>{currency.cnyPrevious}₽</span>
-              </span>
-            </div>
-          </div>
-          
-          <div className='flex flex-col sm:flex-row sm:items-center justify-between p-2 bg-background-dark rounded-lg'>
-            <div className='text-sm sm:text-base font-medium'>100₹ Индийских рупий</div>
-            <div className='flex items-center justify-between sm:justify-end sm:gap-4'>
-              <span className='text-lg sm:text-xl font-bold'>{currencyDetails.inrRateString}</span>
-              <span className='flex items-center text-sub-text-dark text-xs sm:text-sm'>
-                {trend(currency.inrRate, currency.inrPrevious)}
-                <span className='ml-1'>{currency.inrPrevious}₽</span>
-              </span>
+          <CurrencyRow 
+            label="1$ Доллар США" 
+            rate={currency.usdRate} 
+            previous={currency.usdPrevious} 
+
+          />
+          <CurrencyRow 
+            label="1€ Евро" 
+            rate={currency.eurRate} 
+            previous={currency.eurPrevious} 
+
+          />
+          <CurrencyRow 
+            label="1¥ Юань" 
+            rate={currency.cnyRate} 
+            previous={currency.cnyPrevious} 
+
+          />
+          <CurrencyRow 
+            label="100₹ Индийских рупий" 
+            rate={currency.inrRate} 
+            previous={currency.inrPrevious} 
+          />
+
+          {/* Конвертер */}
+          <div className="mt-4 p-3 bg-background-dark rounded-lg border border-gray-700">
+            <div className="text-xs text-sub-text-dark mb-2 uppercase font-bold tracking-wider">Быстрый конвертер</div>
+            <div className="flex gap-2 items-center">
+              <input 
+                type="number" 
+                value={amount}
+                onChange={(e) => setAmount(Number(e.target.value))}
+                className="w-20 bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm outline-none focus:border-accent-dark"
+                min="0"
+              />
+              <select 
+                value={selectedCurrency}
+                onChange={(e) => setSelectedCurrency(e.target.value)}
+                className="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm outline-none focus:border-accent-dark cursor-pointer"
+              >
+                <option value="USD">USD ($)</option>
+                <option value="EUR">EUR (€)</option>
+                <option value="CNY">CNY (¥)</option>
+                <option value="INR">INR (₹)</option>
+              </select>
+              <div className="grow text-right font-bold text-accent-dark">
+                = {convertedValue} ₽
+              </div>
             </div>
           </div>
         </div>

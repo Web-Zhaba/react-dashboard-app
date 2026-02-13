@@ -25,14 +25,14 @@ export const fetchCurrency = async () => {
         }
         const data = await response.json();
         const currencyData = {
-            usdRate: data.Valute.USD.Value.toFixed(2).replace('.', ','),
-            usdPrevious: data.Valute.USD.Previous.toFixed(2).replace('.', ','),
-            eurRate: data.Valute.EUR.Value.toFixed(2).replace('.', ','),
-            eurPrevious: data.Valute.EUR.Previous.toFixed(2).replace('.', ','),
-            cnyRate: data.Valute.CNY.Value.toFixed(2).replace('.', ','),
-            cnyPrevious: data.Valute.CNY.Previous.toFixed(2).replace('.', ','),
-            inrRate: data.Valute.INR.Value.toFixed(2).replace('.', ','),
-            inrPrevious: data.Valute.INR.Previous.toFixed(2).replace('.', ','),
+            usdRate: data.Valute.USD.Value,
+            usdPrevious: data.Valute.USD.Previous,
+            eurRate: data.Valute.EUR.Value,
+            eurPrevious: data.Valute.EUR.Previous,
+            cnyRate: data.Valute.CNY.Value,
+            cnyPrevious: data.Valute.CNY.Previous,
+            inrRate: data.Valute.INR.Value,
+            inrPrevious: data.Valute.INR.Previous,
             timestamp: now,
         };
         // Сохранение в кеш

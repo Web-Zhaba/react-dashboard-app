@@ -4,6 +4,7 @@ import { fetchWeather, clearWeatherCache } from '../../../services/api/WeatherAP
 import WidgetContainer from '../WidgetContainer';
 import { FaArrowDown, FaArrowUp, FaRegEye, FaSearchLocation } from 'react-icons/fa';
 import { WiHumidity, WiBarometer, WiWindy } from 'react-icons/wi';
+import SearchInput from '../../UI/SearchInput/SearchInput';
 
 const WeatherWidget = memo(({ widgetId, onRemove }) => {
   const {
@@ -12,7 +13,8 @@ const WeatherWidget = memo(({ widgetId, onRemove }) => {
     submittedValue,
     isValid,
     submit,
-    touched
+    touched,
+    errorMessage
   } = useInput('Москва', { minLength: 2 });
 
   const [weather, setWeather] = useState(null);
@@ -52,11 +54,7 @@ const WeatherWidget = memo(({ widgetId, onRemove }) => {
     submit(); 
   }, [submit]);
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && isValid) {
-      submit();
-    }
-  };
+  const onEnter = () => submit();
 
   // Мемоизация данных для рендера
   const weatherDetails = useMemo(() => {
@@ -79,35 +77,20 @@ const WeatherWidget = memo(({ widgetId, onRemove }) => {
     >
       {weather && weatherDetails && (
         <div className="weather-content">
-        {/* Поле ввода */}
           <div className="w-full mb-4">
-            <div className="flex gap-2">
-              <input
-                placeholder="Введите город"
-                type="text"
-                value={cityInput}
-                onChange={onChange}
-                onKeyDown={handleKeyDown}
-                className={`grow p-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                  touched && !isValid
-                    ? 'border-red-500 focus:ring-red-500'
-                    : 'border-accent-dark focus:ring-accent-dark'
-                }`}
-              />
-              <button
-                onClick={handleRefresh} 
-                disabled={!isValid}
-                className="px-4 py-2 bg-accent-dark text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
-                aria-label="Поиск погоды"
-              >
-                <FaSearchLocation className="w-5 h-5 sm:w-6 sm:h-6" />
-                <span className="hidden sm:inline">Поиск</span>
-              </button>
-            </div>
-            {/* Отображение ошибки валидации */}
-            {!isValid && (
-              <p className="text-sm text-red-500 mt-1">Минимум 2 символа</p>
-            )}
+            <SearchInput
+              value={cityInput}
+              onChange={onChange}
+              isValid={isValid}
+              touched={touched}
+              placeholder="Введите город"
+              buttonText="Поиск"
+              buttonAriaLabel="Поиск погоды"
+              icon={<FaSearchLocation className="w-5 h-5 sm:w-6 sm:h-6" />}
+              onSubmit={handleRefresh}
+              onEnterPress={onEnter}
+              errorMessage={errorMessage}
+            />
           </div>
 
           <div className="flex flex-col sm:flex-row justify-between items-center sm:items-start mb-4">

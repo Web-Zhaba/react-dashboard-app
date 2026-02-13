@@ -4,7 +4,7 @@ import QuotesWidget from '../Widgets/QuotesWidget/QuotesWidget';
 import CurrencyWidget from '../Widgets/CurrencyWidget/CurrencyWidget'
 import NewsWidget from '../Widgets/NewsWidget/NewsWidget';
 import ToDoWidget from '../Widgets/ToDoWidget/ToDoWidget';
-import { useEffect, useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { MdDashboard } from "react-icons/md";
 import MainModal from '../UI/Modal/MainModal';
 import { MdDateRange, MdSave } from "react-icons/md";
